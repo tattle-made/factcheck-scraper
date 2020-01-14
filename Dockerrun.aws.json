@@ -19,6 +19,9 @@
                     "sourceVolume" : "data",
                     "containerPath" : "/app/data"
                 }
+            ],
+            "links": [
+                "database"
             ]
         },
         {
@@ -32,6 +35,9 @@
                     "hostPort": 80,
                     "containerPort": 80
                 }
+            ],
+            "links": [
+                "database"
             ]
         }
     ],
