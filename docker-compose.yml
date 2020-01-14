@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    database:
+        container_name: 'database'
+        image: 'mongo'
+        restart: always 
+
+    background-worker:
+        container_name: 'background-worker'
+        build: 
+            context: ./services/backup-worker
+        env_file: .env
+        environment: 
+            AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+            AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+            S3_DB_DIRECTORY: $S3_DB_DIRECTORY
+        command: /app/initialize-from-s3.sh 
+        volumes:
+            - ~/data/factcheck-scraper:/app/data
+        depends_on: 
+            - database
+    
+    rest-api:
+        container_name: 'rest-api'
+        build: .
+        ports: 
+            - "80:80"
+        volumes: 
+            - .:/app

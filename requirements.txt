@@ -4,11 +4,14 @@
 #
 #    pip-compile requirements.in
 #
+aniso8601==8.0.0          # via flask-restful
 boto3==1.10.49
 botocore==1.13.49         # via boto3, s3transfer
 click==7.0                # via flask
 docutils==0.15.2          # via botocore
+flask-restful==0.3.7
 flask==1.1.1
+gunicorn==20.0.4
 itsdangerous==1.1.0       # via flask
 jinja2==2.10.3            # via flask
 jmespath==0.9.4           # via boto3, botocore
@@ -17,9 +20,13 @@ psutil==5.6.7
 pymongo==3.10.1
 python-dateutil==2.8.1    # via botocore
 python-dotenv==0.10.3
+pytz==2019.3              # via flask-restful
 s3transfer==0.2.1         # via boto3
 selenium==3.141.0
-six==1.13.0               # via python-dateutil
+six==1.13.0               # via flask-restful, python-dateutil
 tqdm==4.41.1
 urllib3==1.25.7           # via botocore, selenium
 werkzeug==0.16.0          # via flask
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
