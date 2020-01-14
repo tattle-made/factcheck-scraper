@@ -46,3 +46,9 @@ AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 S3_DB_DIRECTORY=
 ```
+
+Push to github to have the service be deployed on
+```
+staging : 
+production : tattle-factcheck-search.ap-south-1.elasticbeanstalk.com 
+```
