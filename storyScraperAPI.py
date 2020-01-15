@@ -9,7 +9,6 @@ load_dotenv()
 app = Flask(__name__)
 api = Api(app)
 
-
 def get_db():
     cli = MongoClient('database', 27017)
     # mongo_url = environ['SCRAPING_URL']

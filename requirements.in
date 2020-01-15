@@ -7,3 +7,4 @@ tqdm
 psutil
 gunicorn
 flask_restful
+requests

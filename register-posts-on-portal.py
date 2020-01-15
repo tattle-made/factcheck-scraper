@@ -9,11 +9,8 @@ import json
 load_dotenv()
 
 def get_db():
-    # setup db
-    # replace with your own db
-    mongo_url = environ['SCRAPING_URL']
-    cli = MongoClient(mongo_url)
-    db = cli.publicData.stories
+    cli = MongoClient('database', 27017)
+    db = cli.factCheckWeb.merged_stories
     
     return db
 
@@ -25,22 +22,23 @@ def get_sample_docs(n, db):
         {"$match": {"docs.mediaType": "image", "docs.s3URL": {"$ne": None}}},
         {"$sample": {"size": n}},
         {"$project": {"_id": 0, "docId": "$docs.doc_id", "storyId": "$docs.postID", 
-                      "type": "$docs.mediaType", "url": "$docs.s3URL", "filename": 
-                      {"$arrayElemAt": [{"$split": ["$docs.s3URL", "/"]}, -1]}}},
+                "type": "$docs.mediaType", "url": "$docs.s3URL", "filename": 
+                {"$arrayElemAt": [{"$split": ["$docs.s3URL", "/"]}, -1]}}},
     ]
     docs = list(db.aggregate(pipeline))
     
     return docs
+
 
 def get_docs_not_on_portal(db):
     pipeline = [
         {"$project": {"docs": "$docs", "url": "$postURL"}},
         {"$unwind": "$docs"},
         {"$match": {"docs.mediaType": "image", "docs.s3URL": {"$ne": None}, "docs.onPortal": {"$ne": True}}},
-        #{"$sample": {"size": n}},
+        # {"$limit": 1},
         {"$project": {"_id": 0, "docId": "$docs.doc_id", "storyId": "$docs.postID", 
-                      "type": "$docs.mediaType", "url": "$docs.s3URL", "filename": 
-                      {"$arrayElemAt": [{"$split": ["$docs.s3URL", "/"]}, -1]}}},
+            "type": "$docs.mediaType", "url": "$docs.s3URL", "filename": 
+            {"$arrayElemAt": [{"$split": ["$docs.s3URL", "/"]}, -1]}}},
     ]
 
     docs = list(db.aggregate(pipeline))
@@ -56,20 +54,28 @@ db = get_db()
 token = "78a6fc20-fa83-11e9-a4ad-d1866a9a3c7b"  # CHANGE token
 # docs = get_sample_docs(n, db)
 docs = get_docs_not_on_portal(db)
+# for d in docs:
+#     print(d)
+
+
+# def register_five_at_a_time(db) : 
+#     docs = get_docs_not_on_portal(db)
+#     print("registering five")
 
 # loop over all docs
+
 for d in docs:
     try:
         # make the post request
         #url = "http://13.233.84.78:3003/api/fact-check-story"
-        url = "http://13.235.149.236:3003/api/fact-check-story"
+        url = "http://archive-staging.ap-south-1.elasticbeanstalk.com:3003/api/fact-check-story"
         payload = d
         payload = json.dumps(payload)
         headers = {
             'token': token,
             'Content-Type': "application/json",
             'cache-control': "no-cache",
-            }
+        }
         r = requests.post(url, data=payload, headers=headers)
         if r.ok:
             db.update_one(
@@ -82,9 +88,7 @@ for d in docs:
             print(f'{d["docId"]}: {r}: failed')
             break
         sleep(5)
-                  
     except Exception as e:
         print(f'{d["docId"]}: {e}')
-        break
-                 
+        break             
 print('job complete')

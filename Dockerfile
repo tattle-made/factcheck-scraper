@@ -5,7 +5,10 @@ RUN apt-get update && apt-get -y install vim
 COPY . /app
 WORKDIR /app
 ARG flask_app=application.py
-ENV FLASK_APP=$flask_app 
+ENV FLASK_APP=$flask_app
+RUN pip install virtualenv
+# RUN ./bin/activate 
+# RUN pip install pip-tools
 RUN pip install -r requirements.txt
 EXPOSE 80
 
