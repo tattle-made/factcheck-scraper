@@ -1,8 +1,0 @@
-backgroundworker:
-  image: tattletech/service-background-worker:latest
-  volumes:
-  - /Users/dennygeorge/Documents/Tattle/factcheck-scraper/data:/app/data
-database:
-  image: mongo
-restapiserver:
-  image: tattletech/factcheck-scraper:latest
