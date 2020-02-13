@@ -18,6 +18,9 @@ pip install -r requirements.txt
 `python application.py`
 
 # DEVELOPMENT NOTES
+## Prerequisites
+* .env file (get them from tattle admin)
+* have docker installed on your machine
 
 ```
 docker-compose up

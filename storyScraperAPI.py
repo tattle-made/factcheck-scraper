@@ -9,11 +9,16 @@ load_dotenv()
 app = Flask(__name__)
 api = Api(app)
 
+print('')
+
 def get_db():
-    cli = MongoClient('database', 27017)
-    # mongo_url = environ['SCRAPING_URL']
-    # cli = MongoClient(mongo_url)
-    db = cli.factCheckWeb.merged_stories
+    # cli = MongoClient('database', 27017)
+    mongo_url = environ['FC_MONGO_URL']
+    db_name=environ['FC_MONGO_DB_NAME']
+    coll_name=environ['FC_MONGO_COLL_NAME']
+    cli = MongoClient(mongo_url)
+    
+    db = cli[db_name][coll_name]
 
     return db
     
