@@ -19,5 +19,5 @@ jobs:
       with:
         username: tattletech
         password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: tattletech/archive-server
+        repository: tattletech/factcheck-scraper
         tag: stable
