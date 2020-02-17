@@ -114,11 +114,20 @@ class Home(Resource):
         print('inside get')
         return ('home')
 
+class FCTest(Resource):
+    def __init__(self, *args, **kwargs):
+        print('initing Test')
+
+    def get(self):
+        print('inside get')
+        return ('home')
+
 api.add_resource(getPostMetadata, '/api/metadataFromPost')
 api.add_resource(getDocMetadata, '/api/metadataFromDoc')
 # api.add_resource(Test, '/api/test')
 api.add_resource(Health, '/health')
 api.add_resource(Home, '/')
+api.add_resource(FCTest, '/fc-test/health')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=80, debug=True)
