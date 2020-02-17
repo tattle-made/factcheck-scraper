@@ -97,17 +97,28 @@ class getDocMetadata(Resource):
 
 
 
-class Test(Resource):
+class Health(Resource):
     def __init__(self, *args, **kwargs):
         print('initing Test')
 
     def get(self):
         print('inside get')
-        return ('hi')
+        return ('health')
+
+
+class Home(Resource):
+    def __init__(self, *args, **kwargs):
+        print('initing Test')
+
+    def get(self):
+        print('inside get')
+        return ('home')
 
 api.add_resource(getPostMetadata, '/api/metadataFromPost')
 api.add_resource(getDocMetadata, '/api/metadataFromDoc')
-api.add_resource(Test, '/api/test')
+# api.add_resource(Test, '/api/test')
+api.add_resource(Health, '/health')
+api.add_resource(Home, '/')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=80, debug=True)
