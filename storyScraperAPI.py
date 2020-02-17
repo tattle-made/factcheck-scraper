@@ -122,12 +122,12 @@ class FCTest(Resource):
         print('inside get')
         return ('home')
 
-api.add_resource(getPostMetadata, '/api/metadataFromPost')
-api.add_resource(getDocMetadata, '/api/metadataFromDoc')
+api.add_resource(getPostMetadata, '/fcs/metadataFromPost')
+api.add_resource(getDocMetadata, '/fcs/metadataFromDoc')
 # api.add_resource(Test, '/api/test')
 api.add_resource(Health, '/health')
 api.add_resource(Home, '/')
-api.add_resource(FCTest, '/fc-test/health')
+api.add_resource(FCTest, '/fcs/health')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=80, debug=True)
