@@ -12,7 +12,9 @@ jobs:
       SHA8: ${GITHUB_SHA::8}
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      with:
+        ref: master
       
     - name: Publish to Docker
       uses: zenato/docker-action@master
@@ -21,3 +23,12 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: tattletech/factcheck-scraper
         tag: stable
+
+    - name: Notify on Slack
+      uses: rtCamp/action-slack-notify@v2.0.0
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_MESSAGE: 'Updated Docker Registry for factcheck-scraper:stable'
+        SLACK_TITLE: 'update-registry-stable job complete'
+        SLACK_COLOR: '#020637'
+        SLACK_ICON: https://tattle-media.s3.amazonaws.com/monogram-dark.svg
